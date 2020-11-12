@@ -1,3 +1,21 @@
 h1 {
     color: red;
 }
+
+div {
+    margin-top: 20px;
+    width: 456px;
+    border: solid 1px transparent;
+  }
+  
+  div > div {
+    display: inline-block;
+    width: 100px;
+    height: 100px;
+    border: solid 2px gray;
+    margin: 2px;
+    text-align: center;
+    font: bold 24px/100px Tahoma,sans;
+    border-radius: 10px;
+    background-color: whitesmoke;
+  }
