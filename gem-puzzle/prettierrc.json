@@ -1,0 +1,7 @@
+{
+    "parser": "babel",
+    "singleQuote": true,
+    "tabWidth": 4,
+    "printWidth": 120,
+    "useTabs": false
+}
