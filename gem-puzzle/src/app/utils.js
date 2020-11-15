@@ -14,18 +14,18 @@ function tileNumber(arr, i) {
   return (number !== 16) ? number : 0;
 }
 
-function soundKeys({ isOnSound }) {
+function soundKeys(isOnSound, error) {
   if (isOnSound) {
     const audio = new Audio();
     audio.preload = 'auto';
-    audio.src = 'src/public/sound_one.mp3';
+    audio.src = (error) ? 'src/public/wrong.mp3' : 'src/public/correct.mp3';
     audio.play();
   }
 }
 
-function addZero(n) {
-  return (parseInt(n, 10) < 10 ? '0' : '') + n;
-}
+// function addZero(n) {
+//   return (parseInt(n, 10) < 10 ? '0' : '') + n;
+// }
 
 export {
   rand, successMessage, tileNumber, soundKeys,

@@ -8,18 +8,40 @@ export default class Fifteen {
   }
 
   getFifteens() {
+    let isOnSound = true;
+
     const model = new FifteenModel(this.state);
     let data = model.getCurrentState();
     let view = new FifteenView(data);
     view.render();
 
     window.addEventListener('mousedown', (event) => {
-      soundKeys(data);
       const index = event.target.getAttribute('data-index');
+      if (!model.canMoveTile(index) && index) {
+        soundKeys(isOnSound, 1);
+      }
       if (model.moveTile(index)) {
+        soundKeys(isOnSound, 0);
         data = model.getCurrentState();
         view = new FifteenView(data);
         view.render();
+      }
+
+      if (event.target.getAttribute('id') === 'undo') {
+        // console.log(model.undo());
+        data = model.getCurrentState();
+        view = new FifteenView(data);
+        view.render();
+      }
+
+      if (event.target.getAttribute('id') === 'sound') {
+        const sound = document.querySelector('#sound');
+        isOnSound = !isOnSound;
+        if (isOnSound) {
+          sound.textContent = 'Sound ON';
+        } else {
+          sound.textContent = 'Sound OFF';
+        }
       }
     });
   }

@@ -3,7 +3,7 @@ import '../style/style.css';
 
 import Fifteen from './Fifteen';
 
-let isOnSound = true;
+const isOnSound = true;
 
 const state = {
   codSizeField: 1,
@@ -36,20 +36,16 @@ function getResult() {
 
   const undo = document.createElement('button');
   undo.classList.add('info-panel');
+  undo.setAttribute('id', 'undo');
   undo.textContent = 'UNDO';
 
   const sound = document.createElement('button');
   sound.classList.add('info-panel');
+  sound.setAttribute('id', 'sound');
   sound.style.width = '95px';
   (isOnSound)
     ? sound.textContent = 'Sound ON'
     : sound.textContent = 'Sound OFF';
-  sound.addEventListener('click', () => {
-    isOnSound = !isOnSound;
-    (isOnSound)
-      ? sound.textContent = 'Sound ON'
-      : sound.textContent = 'Sound OFF';
-  });
 
   const pause = document.createElement('button');
   pause.classList.add('info-panel');
@@ -76,7 +72,6 @@ function getResult() {
 
   const game15 = new Fifteen(state);
   game15.getFifteens();
-
 }
 
 document.addEventListener('DOMContentLoaded', getResult());
