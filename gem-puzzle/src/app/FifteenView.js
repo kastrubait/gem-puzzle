@@ -7,17 +7,23 @@ export default class FifteenView {
 
   render() {
     const {
-      board, solved, codSizeField,
+      board, solved, codSizeField, moves, time,
     } = this.stateCurrentGames;
     const box = document.querySelector('div');
-    // console.log(this.stateCurrentGames);
     if (solved) {
-      box.style.backgroundColor = 'gold';
+      box.style.backgroundColor = 'rgb(218, 165, 32)';
       successMessage(this.stateCurrentGames);
     }
 
+    const timeText = document.querySelector('#timer');
+    timeText.textContent = `Time ${time}`;
+
+    const movesText = document.querySelector('#moves');
+    movesText.textContent = `Moves ${moves}`;
+
     for (let i = 0, tile; i < board.length; i++) {
       tile = box.childNodes[i];
+      tile.dataIndex = i;
       tile.textContent = tileNumber(board[i], codSizeField);
       tile.style.visibility = tileNumber(board[i], codSizeField) !== 0 ? 'visible' : 'hidden';
     }

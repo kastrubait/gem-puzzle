@@ -6,13 +6,17 @@ import Fifteen from './Fifteen';
 let isOnSound = true;
 
 const state = {
-  modeGame: 1,
   codSizeField: 1,
+  modeGame: 1,
   solved: false,
+  board: [],
+  emptyIndex: null,
+  shuffling: false,
+  stack: [],
   moves: 0,
   time: 0,
-  board: [],
   isOnSound,
+  startGame: false,
 };
 
 function getResult() {
@@ -23,11 +27,12 @@ function getResult() {
   const heading = document.createElement('h1');
   heading.textContent = 'Gem Puzzle';
 
-  const timer = document.createElement('h2');
-  timer.textContent = 'Time 00 : 00';
+  const timeText = document.createElement('h2');
+  timeText.setAttribute('id', 'timer');
+  // timeText.textContent = 'Time 00 : 00';
 
-  const moves = document.createElement('span');
-  moves.textContent = 'Moves: 0';
+  const movesText = document.createElement('span');
+  movesText.setAttribute('id', 'moves');
 
   const undo = document.createElement('button');
   undo.classList.add('info-panel');
@@ -54,21 +59,24 @@ function getResult() {
   buttonsPanel.classList.add('info');
   buttonsPanel.append(undo, sound, pause);
 
-  const info = document.createElement('div');
+  const info = document.createElement('section');
   info.classList.add('info');
-  info.append(moves, buttonsPanel);
+  info.append(movesText, buttonsPanel);
 
   const box = document.body.appendChild(document.createElement('div'));
   box.classList.add('game-board');
   for (let i = 0; i < 16; i++) {
-    box.appendChild(document.createElement('div'));
+    const tile = document.createElement('div');
+    tile.setAttribute('data-index', i);
+    box.appendChild(tile);
   }
+
+  const root = document.querySelector('#root');
+  root.append(heading, p, timeText, info, box);
 
   const game15 = new Fifteen(state);
   game15.getFifteens();
 
-  const root = document.querySelector('#root');
-  root.append(heading, p, timer, info, box);
 }
 
 document.addEventListener('DOMContentLoaded', getResult());

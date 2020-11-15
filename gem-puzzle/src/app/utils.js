@@ -23,28 +23,9 @@ function soundKeys({ isOnSound }) {
   }
 }
 
-// function addZero(n) {
-//   return (parseInt(n, 10) < 10 ? '0' : '') + n;
-// }
-
-// function startTimer({ gamePause, gameStart, time }) {
-//   const timeId = setInterval(() => {
-//     if (!gamePause && !gameStart) {
-//       time += 1;
-//       const sec = this.timer % 60;
-//       const min = parseInt(this.timer / 60, 10);
-//       return `Time ${addZero(min)} <span>:</span> ${addZero(sec)}`;
-//     }
-//   }, 1000);
-// }
-
-// function resetTimer(timeId) {
-//   clearInterval(timeId);
-//   this.time = 0;
-//   this.sec = 0;
-//   this.min = 0;
-//   return `Time ${addZero(this.min)} <span>:</span> ${addZero(this.sec)}`;
-// }
+function addZero(n) {
+  return (parseInt(n, 10) < 10 ? '0' : '') + n;
+}
 
 export {
   rand, successMessage, tileNumber, soundKeys,

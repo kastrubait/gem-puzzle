@@ -6,8 +6,20 @@ import {
 import { tileNumber } from './utils';
 
 export default class FifteenModel {
-  constructor(state) {
-    this.state = state;
+  constructor({
+    codSizeField, moves, time, board, modeGame, emptyIndex, shuffling, stack, startGame, isOnSound,
+  }) {
+    // this.state = state;
+    this.codSizeField = codSizeField;
+    this.modeGame = modeGame;
+    this.board = board;
+    this.emptyIndex = emptyIndex;
+    this.shuffling = shuffling;
+    this.stack = stack;
+    this.moves = moves;
+    this.time = time;
+    this.isOnSound = isOnSound;
+    this.startGame = startGame;
   }
 
   static getNewBoard(codSizeField) {
@@ -18,13 +30,22 @@ export default class FifteenModel {
     return solvedBoard;
   }
 
-  static isSolved(codSizeField, newBoard) {
-    const solvedBoard = FifteenModel.getNewBoard(codSizeField);
-    for (let i = 0; i < NUM_TILES[codSizeField]; i++) {
+  isSolved(newBoard) {
+    const solvedBoard = FifteenModel.getNewBoard(this.codSizeField);
+    for (let i = 0; i < NUM_TILES[this.codSizeField]; i++) {
       if (newBoard[i][0] !== solvedBoard[i][0]
           || newBoard[i][1] !== solvedBoard[i][1]) { return false; }
     }
+    this.shuffling = true;
     return true;
+  }
+
+  static getEmptyIndex(board, k) {
+    let emptyIndex = null;
+    for (let i = 0; i < board.length; i++) {
+      if (tileNumber(board[i], k) === 0) emptyIndex = i;
+    }
+    return emptyIndex;
   }
 
   static swap(arrTile, i1, i2) {
@@ -33,11 +54,12 @@ export default class FifteenModel {
     arrTile[i2] = t;
   }
 
-  static solvable(k, newBoard) {
+  static solvable(board) {
     let kDisorder = 0;
-    for (let i = 1; i < newBoard.length - 1; i++) {
+    const k = this.codSizeField;
+    for (let i = 1; i < board.length - 1; i++) {
       for (let j = i - 1; j >= 0; j--) {
-        if (tileNumber(newBoard[j], k) > tileNumber(newBoard[i], k)) {
+        if (tileNumber(board[j], k) > tileNumber(board[i], k)) {
           kDisorder += 1;
         }
       }
@@ -45,26 +67,59 @@ export default class FifteenModel {
     return !(kDisorder % 2);
   }
 
+  canMoveTile(index) {
+    if (index < 0 || index >= NUM_TILES[this.codSizeField]) return false;
+    const tilePos0 = Math.floor(index / NUM_ROWS[this.codSizeField]);
+    const tilePos1 = index % NUM_COLS[this.codSizeField];
+    const emptyPos0 = Math.floor(this.emptyIndex / NUM_ROWS[this.codSizeField]);
+    const emptyPos1 = this.emptyIndex % NUM_COLS[this.codSizeField];
+    if (tilePos0 === emptyPos0) return Math.abs(tilePos1 - emptyPos1) === 1;
+    if (tilePos1 === emptyPos1) return Math.abs(tilePos0 - emptyPos0) === 1;
+    return false;
+  }
+
+  moveTile(index) {
+    if (this.isSolved(this.board)) return false;
+    if (!this.canMoveTile(index)) return false;
+    const emptyPosition = [...this.board[this.emptyIndex]];
+    const tilePosition = [...this.board[index]];
+    const boardAfterMove = [...this.board];
+    boardAfterMove[this.emptyIndex] = tilePosition;
+    boardAfterMove[index] = emptyPosition;
+
+    if (!this.shuffling) this.stack.push(this.board);
+    this.board = boardAfterMove;
+    this.emptyIndex = FifteenModel.getEmptyIndex(this.board, this.codSizeField);
+    if (!this.shuffling) this.moves += 1;
+    return true;
+  }
+
   getCurrentState() {
-    const { codSizeField, moves, time } = this.state;
-    if (moves === 0 && time === 0) {
-      const newBoard = FifteenModel.getNewBoard(codSizeField)
+    if (this.moves === 0 && this.time === 0 && !this.startGame) {
+      const newBoard = FifteenModel.getNewBoard(this.codSizeField)
         .sort(() => Math.random() - 0.5);
-      if (!FifteenModel.solvable(codSizeField, newBoard)) FifteenModel.swap(newBoard, 0, 1);
-      return {
-        codSizeField,
-        moves,
-        time,
-        board: newBoard,
-        solved: FifteenModel.isSolved(codSizeField, newBoard),
-      };
+      if (!FifteenModel.solvable(newBoard)) FifteenModel.swap(newBoard, 0, 1);
+      this.startGame = true;
+      this.shuffling = false;
+      this.board = newBoard;
+      this.emptyIndex = FifteenModel.getEmptyIndex(this.board, this.codSizeField);
+      // this.solved = FifteenModel.isSolved();
     }
     return {
-      codSizeField,
-      board: this.board,
+      codSizeField: this.codSizeField,
       moves: this.moves,
       time: this.time,
-      solved: false,
+      board: this.board,
+      emptyIndex: this.emptyIndex,
+      solved: this.solved,
+      isOnSound: this.isOnSound,
     };
+    // return {
+    //   codSizeField,
+    //   board: this.board,
+    //   moves: this.moves,
+    //   time: this.time,
+    //   solved: false,
+    // };
   }
 }
