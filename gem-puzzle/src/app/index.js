@@ -49,6 +49,7 @@ function getResult() {
 
   const pause = document.createElement('button');
   pause.classList.add('info-panel');
+  pause.setAttribute('id', 'pause');
   pause.textContent = 'PAUSE';
 
   const buttonsPanel = document.createElement('span');

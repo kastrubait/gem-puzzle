@@ -1,6 +1,6 @@
 import FifteenModel from './FifteenModel';
 import FifteenView from './FifteenView';
-import { soundKeys } from './utils';
+import { soundKeys, successMessage } from './utils';
 
 export default class Fifteen {
   constructor(state) {
@@ -45,6 +45,15 @@ export default class Fifteen {
         } else {
           sound.textContent = 'Sound OFF';
         }
+      }
+
+      if (event.target.getAttribute('id') === 'pause') {
+        successMessage(model.getCurrentState());
+        document.getElementById('overlay').style.display = 'block';
+      }
+
+      if (event.target.getAttribute('id') === 'overlay') {
+        document.getElementById('overlay').style.display = 'none';
       }
     });
   }
