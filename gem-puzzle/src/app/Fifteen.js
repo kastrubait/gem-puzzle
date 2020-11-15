@@ -17,10 +17,10 @@ export default class Fifteen {
 
     window.addEventListener('mousedown', (event) => {
       const index = event.target.getAttribute('data-index');
-      if (!model.canMoveTile(index) && index) {
+      if (index && !model.canMoveTile(index)) {
         soundKeys(isOnSound, 1);
       }
-      if (model.moveTile(index)) {
+      if (index && model.moveTile(index)) {
         soundKeys(isOnSound, 0);
         data = model.getCurrentState();
         view = new FifteenView(data);
@@ -29,9 +29,12 @@ export default class Fifteen {
 
       if (event.target.getAttribute('id') === 'undo') {
         // console.log(model.undo());
-        data = model.getCurrentState();
-        view = new FifteenView(data);
-        view.render();
+        const undo = model.undo();
+        if (!undo) {
+          data = model.getCurrentState();
+          view = new FifteenView(data);
+          view.render();
+        }
       }
 
       if (event.target.getAttribute('id') === 'sound') {

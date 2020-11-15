@@ -94,6 +94,14 @@ export default class FifteenModel {
     return true;
   }
 
+  undo() {
+    if (this.stack.length !== 0) {
+      this.board = this.stack.pop();
+      this.moves -= 1;
+    }
+    return false;
+  }
+
   getCurrentState() {
     if (this.moves === 0 && this.time === 0 && !this.startGame) {
       const newBoard = FifteenModel.getNewBoard(this.codSizeField)
@@ -113,13 +121,7 @@ export default class FifteenModel {
       emptyIndex: this.emptyIndex,
       solved: this.solved,
       isOnSound: this.isOnSound,
+      stack: this.stack,
     };
-    // return {
-    //   codSizeField,
-    //   board: this.board,
-    //   moves: this.moves,
-    //   time: this.time,
-    //   solved: false,
-    // };
   }
 }
