@@ -1,4 +1,6 @@
 import { NUM_ROWS } from './constans';
+// eslint-disable-next-line import/no-cycle
+import { anyMessage } from './modal';
 
 function rand(min, max) {
   return min + Math.floor(Math.random() * (max - min + 1));
@@ -6,26 +8,6 @@ function rand(min, max) {
 
 function addZero(n) {
   return (parseInt(n, 10) < 10 ? '0' : '') + n;
-}
-
-function successMessage({ moves, time }) {
-  console.log(moves);
-  const sec = time % 60;
-  const min = parseInt(time / 60, 10);
-
-  const p = document.createElement('p');
-  p.textContent = `You solved the puzzle in ${addZero(min)} : ${addZero(sec)} and ${moves} moves.`;
-
-  const heading = document.createElement('h4');
-  heading.textContent = 'Congratulations!';
-
-  const message = document.createElement('section');
-  message.setAttribute('id', 'infoVictory');
-  message.append(heading, p);
-
-  const overlay = document.body.appendChild(document.createElement('div'));
-  overlay.setAttribute('id', 'overlay');
-  overlay.append(message);
 }
 
 function tileNumber(arr, i) {
@@ -43,6 +25,54 @@ function soundKeys(isOnSound, error) {
   }
 }
 
+function restart() {
+  return {
+    codSizeField: 1,
+    modeGame: 1,
+    solved: false,
+    board: [],
+    emptyIndex: null,
+    shuffling: false,
+    stack: [],
+    moves: 0,
+    time: 0,
+    startGame: false,
+  };
+}
+
+function saveGame(data, timer) {
+  const { moves, solved } = data;
+  if (solved) {
+    const formatter = new Intl.DateTimeFormat('en-US');
+    const currentScore = {
+      date: formatter.format(new Date()),
+      time: timer,
+      moves,
+    };
+    let results;
+    if (localStorage.getItem('results')) {
+      results = JSON.parse(localStorage.getItem('resulrs'));
+    } else {
+      results = [];
+    }
+    if (results.length < 10) {
+      results.push(currentScore);
+      // eslint-disable-next-line no-confusing-arrow
+      results.sort((a, b) => a.moves > b.moves ? 1 : -1);
+    } else {
+      results.splice(0, 1);
+      results.push(currentScore);
+    }
+    localStorage.setItem('bestScore', JSON.stringify(results));
+  }
+  if (moves && !solved) {
+    window.localStorage.setItem('dataGame', JSON.stringify(data));
+    window.localStorage.setItem('time', timer);
+  } else {
+    anyMessage('Start the game, nothing to save here!!');
+  }
+}
+
 export {
-  rand, successMessage, tileNumber, soundKeys,
+  rand, tileNumber, soundKeys, restart, addZero, saveGame,
 };

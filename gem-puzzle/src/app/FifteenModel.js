@@ -1,6 +1,6 @@
 /* eslint-disable no-param-reassign */
 import {
-  NUM_TILES, NUM_ROWS, NUM_COLS,
+  NUM_TILES, NUM_ROWS, NUM_COLS, MOVE_DIRECTIONS,
 } from './constans';
 
 import { tileNumber } from './utils';
@@ -67,6 +67,14 @@ export default class FifteenModel {
     return !(kDisorder % 2);
   }
 
+  static moveInDirection(direction) {
+    const move = MOVE_DIRECTIONS[direction];
+    // const emptyIndex = FifteenModel.getEmptyIndex(this.board, this.codSizeField);;
+    const index = this.emptyIndex + move;
+    console.log(direction, move, this.emptyIndex, index);
+    return index;
+  }
+
   canMoveTile(index) {
     if (index < 0 || index >= NUM_TILES[this.codSizeField]) return false;
     const tilePos0 = Math.floor(index / NUM_ROWS[this.codSizeField]);
@@ -98,6 +106,7 @@ export default class FifteenModel {
     if (this.stack.length !== 0) {
       this.board = this.stack.pop();
       this.moves -= 1;
+      this.emptyIndex = FifteenModel.getEmptyIndex(this.board, this.codSizeField);
     }
     return false;
   }

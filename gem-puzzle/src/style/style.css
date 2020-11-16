@@ -14,6 +14,13 @@ h1, h2, h4, p {
   width: 420px;
  }
 
+ h4:hover {
+  color: rgb(124, 4, 104);
+  text-shadow: 2px 4px 3px rgba(0, 0, 0, 0.514),
+                 0px -5px 5px rgba(255, 255, 255, 0.884);
+
+ }
+
  section.info {
   display: flex;
   margin: 0 auto;
@@ -53,6 +60,16 @@ h1, h2, h4, p {
 #infoVictory{
   position: absolute;
   top: 50%;
+  left: 50%;
+  font-size: 50px;
+  color: white;
+  transform: translate(-50%,-50%);
+  -ms-transform: translate(-50%,-50%);
+}
+
+#menu{
+  position: absolute;
+  top: 65%;
   left: 50%;
   font-size: 50px;
   color: white;
@@ -106,4 +123,39 @@ div > div {
 
 div > div:hover { 
   background-color: rgb(191, 194, 181);
+}
+
+@media (max-width: 425px) { 
+  h1, h2, h4, p { 
+    width: 310px
+   }
+
+   p{
+    font-size: 18px;
+   }
+
+   section.info {
+    width: 310px;
+    font: bolder 16px Tahoma,sans;
+   }
+
+   button.info-panel {
+    font: bolder 12px Tahoma,sans;
+  }
+
+   div.game-board {
+    width: 308px;
+    height: 308px;
+   }
+
+   div > div {
+    width: 50px;
+    height: 50px;
+    font: bold 28px/50px Tahoma,sans;
+   }
+
+   #menu{
+    top: 55%;
+    font-size: 40px;
+   }
 }

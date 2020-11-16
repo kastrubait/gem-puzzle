@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-expressions */
 import '../style/style.css';
-
 import Fifteen from './Fifteen';
+import { showMenu } from './modal';
 
 const isOnSound = true;
 
@@ -15,7 +15,6 @@ const state = {
   stack: [],
   moves: 0,
   time: 0,
-  isOnSound,
   startGame: false,
 };
 
@@ -29,7 +28,6 @@ function getResult() {
 
   const timeText = document.createElement('h2');
   timeText.setAttribute('id', 'timer');
-  // timeText.textContent = 'Time 00 : 00';
 
   const movesText = document.createElement('span');
   movesText.setAttribute('id', 'moves');
@@ -73,6 +71,7 @@ function getResult() {
 
   const game15 = new Fifteen(state);
   game15.getFifteens();
+  showMenu();
 }
 
 document.addEventListener('DOMContentLoaded', getResult());
