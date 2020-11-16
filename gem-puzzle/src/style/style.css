@@ -7,7 +7,7 @@ body {
 h1 { color: rgb(147, 6, 123); padding-top: 20px; text-shadow: 2px 4px 3px rgba(0,0,0,0.2);}
 p { font-size: 24px; }
 
-h1, h2, h4, p { 
+h1, h2, h3, h4, h5, p { 
   margin: 0 auto;
   padding-top: 10px;
   text-align: center;
@@ -67,7 +67,7 @@ h1, h2, h4, p {
   -ms-transform: translate(-50%,-50%);
 }
 
-#menu{
+#menu {
   position: absolute;
   top: 65%;
   left: 50%;
@@ -75,6 +75,37 @@ h1, h2, h4, p {
   color: white;
   transform: translate(-50%,-50%);
   -ms-transform: translate(-50%,-50%);
+}
+
+#message {
+  position: absolute;
+  top: 25%;
+  left: 50%;
+  font-size: 40px;
+  z-index: 5;
+  color: white;
+  transform: translate(-50%,-50%);
+  -ms-transform: translate(-50%,-50%);
+}
+
+h3 {
+  position: relative;
+  top: 43%;
+  left: 50%;
+  margin-left: -0.625em;
+  font-size: 25px;
+  color: white;
+  white-space: pre;
+  transform: translate(-50%,-50%);
+  -ms-transform: translate(-50%,-50%);
+}
+
+p.rowStyle {
+  position: relative;
+  top: 43%;
+  font-size: 25px;
+  color: white;
+  white-space: pre;
 }
 
 div.game-board {

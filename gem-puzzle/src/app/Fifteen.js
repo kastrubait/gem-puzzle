@@ -1,7 +1,12 @@
+/* eslint-disable no-unused-vars */
 import FifteenModel from './FifteenModel';
 import FifteenView from './FifteenView';
-import { soundKeys, restart, saveGame } from './utils';
-import { showMenu, successMessage } from './modal';
+import {
+  soundKeys, restart, saveGame, loadGame, showTime, getScore,
+} from './utils';
+import {
+  showMenu, successMessage, showResults,
+} from './modal';
 
 export default class Fifteen {
   constructor(state) {
@@ -10,11 +15,14 @@ export default class Fifteen {
 
   getFifteens() {
     let isOnSound = true;
+    let gameStart = true;
+    let gamePause = false;
 
     let model = new FifteenModel(this.state);
     let data = model.getCurrentState();
     let view = new FifteenView(data);
     view.render();
+
 
     window.addEventListener('mousedown', (event) => {
       const index = event.target.getAttribute('data-index');
@@ -29,7 +37,6 @@ export default class Fifteen {
       }
 
       if (event.target.getAttribute('id') === 'undo') {
-        // console.log(model.undo());
         const undo = model.undo();
         if (!undo) {
           data = model.getCurrentState();
@@ -49,30 +56,55 @@ export default class Fifteen {
       }
 
       if (event.target.getAttribute('id') === 'pause') {
+        gamePause = true;
         showMenu();
-        document.getElementById('overlay').style.display = 'block';
       }
 
       if (event.target.getAttribute('id') === 'victory') {
         successMessage(model.getCurrentState());
+        gameStart = false;
       }
 
       if (event.target.getAttribute('id') === 'newGame') {
-        document.getElementById('overlay').style.display = 'none';
+        const element = document.getElementById('overlay');
+        element.remove();
         const newState = restart();
         model = new FifteenModel(newState);
         data = model.getCurrentState();
         view = new FifteenView(data);
         view.render();
+        gameStart = true;
       }
 
       if (event.target.getAttribute('id') === 'saveGame') {
+        gameStart = false;
         data = model.getCurrentState();
         saveGame(data, 0);
       }
 
+      if (event.target.getAttribute('id') === 'oldGame') {
+        const element = document.getElementById('overlay');
+        element.remove();
+        const { oldGame, timer } = loadGame();
+        if (oldGame) {
+          view = new FifteenView(oldGame);
+          view.render();
+          gameStart = true;
+          gamePause = false;
+          showTime(timer);
+        }
+      }
+
+      if (event.target.getAttribute('id') === 'bestScore') {
+        const element = document.getElementById('overlay');
+        element.remove();
+        const results = getScore();
+        showResults(results);
+      }
+
       if (event.target.getAttribute('id') === 'overlay') {
-        document.getElementById('overlay').style.display = 'none';
+        const element = document.getElementById('overlay');
+        element.remove();
       }
     });
 

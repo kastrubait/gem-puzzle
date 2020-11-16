@@ -1,4 +1,5 @@
-import { successMessage, tileNumber } from './utils';
+import { tileNumber } from './utils';
+import { successMessage } from './modal';
 
 export default class FifteenView {
   constructor(stateCurrentGames) {
@@ -7,7 +8,7 @@ export default class FifteenView {
 
   render() {
     const {
-      board, solved, codSizeField, moves, time,
+      board, solved, codSizeField, moves,
     } = this.stateCurrentGames;
     const box = document.querySelector('div');
     if (solved) {
@@ -16,7 +17,7 @@ export default class FifteenView {
     }
 
     const timeText = document.querySelector('#timer');
-    timeText.textContent = `Time ${time}`;
+    timeText.textContent = 'Time 00 : 00';
 
     const movesText = document.querySelector('#moves');
     movesText.textContent = `Moves ${moves}`;
