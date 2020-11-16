@@ -25,7 +25,12 @@ module.exports = {
       },
       {
         test: /\.(gif|jpg|png|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
-        use: [ 'file-loader' ],
+        use: ['file-loader'],
+      },
+      {
+        test: /\.mp3$/,
+        include: /public/,
+        loader: 'file-loader',
       },
     ],
   },
@@ -45,7 +50,7 @@ module.exports = {
       ignoreOrder: false,
     }),
     new CopyPlugin([
-      { from: 'src/public/img', to: 'img' },
+      { from: 'src/public', to: 'public' },
     ]),
   ],
 };
