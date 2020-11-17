@@ -66,8 +66,27 @@ function getResult() {
     box.appendChild(tile);
   }
 
+  const classic = document.createElement('button');
+  classic.classList.add('settings-panel');
+  classic.classList.add('settings-panel-active');
+  classic.setAttribute('id', 'classic');
+  classic.textContent = 'CLASSIC GAME';
+
+  const picture = document.createElement('button');
+  picture.classList.add('settings-panel');
+  picture.setAttribute('id', 'picture');
+  picture.textContent = 'PICTURE PUZZLE';
+
+  const label = document.createElement('span');
+  label.setAttribute('id', 'label');
+  label.textContent = 'Select MODE:  ';
+
+  const setingsPanel = document.createElement('section');
+  setingsPanel.classList.add('settings');
+  setingsPanel.append(label, classic, picture);
+
   const root = document.querySelector('#root');
-  root.append(heading, p, timeText, info, box);
+  root.append(heading, p, timeText, info, box, setingsPanel);
 
   const game15 = new Fifteen(state);
   game15.getFifteens();

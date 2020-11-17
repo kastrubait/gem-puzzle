@@ -15,7 +15,6 @@ export default class Fifteen {
 
   getFifteens() {
     let isOnSound = true;
-    let gameStart = true;
     let gamePause = false;
 
     let model = new FifteenModel(this.state);
@@ -56,40 +55,45 @@ export default class Fifteen {
       }
 
       if (event.target.getAttribute('id') === 'pause') {
-        gamePause = true;
+        const img = document.querySelector('.img');
+        if (img) img.remove();
+        this.gamePause = true;
         showMenu();
       }
 
       if (event.target.getAttribute('id') === 'victory') {
         successMessage(model.getCurrentState());
-        gameStart = false;
+        this.gameStart = false;
       }
 
       if (event.target.getAttribute('id') === 'newGame') {
         const element = document.getElementById('overlay');
         element.remove();
+        this.gameStart = true;
         const newState = restart();
         model = new FifteenModel(newState);
         data = model.getCurrentState();
         view = new FifteenView(data);
         view.render();
-        gameStart = true;
+        const { modeGame } = data;
+        if (!modeGame) document.querySelector('.img').style.display = 'block';
       }
 
       if (event.target.getAttribute('id') === 'saveGame') {
-        gameStart = false;
+        this.gameStart = false;
         data = model.getCurrentState();
         saveGame(data, 0);
       }
 
       if (event.target.getAttribute('id') === 'oldGame') {
         const element = document.getElementById('overlay');
-        element.remove();
-        const { oldGame, timer } = loadGame();
+        if (element) element.remove();
+        const { oldGame, timer, modeGame } = loadGame();
         if (oldGame) {
           view = new FifteenView(oldGame);
           view.render();
-          gameStart = true;
+          if (!modeGame) document.querySelector('.img').style.display = 'block';
+          this.gameStart = true;
           gamePause = false;
           showTime(timer);
         }
@@ -97,14 +101,45 @@ export default class Fifteen {
 
       if (event.target.getAttribute('id') === 'bestScore') {
         const element = document.getElementById('overlay');
-        element.remove();
+        if (element) element.remove();
         const results = getScore();
         showResults(results);
       }
 
+      if (event.target.getAttribute('id') === 'classic') {
+        this.state.modeGame = 1;
+        this.gameStart = true;
+        model = new FifteenModel(this.state);
+        data = model.getCurrentState();
+        view = new FifteenView(data);
+        view.render();
+        const { modeGame } = data;
+        if (modeGame) document.querySelector('.img').style.display = 'none';
+        document.querySelector('#classic').classList.add('settings-panel-active');
+        document.querySelector('#picture').classList.remove('settings-panel-active');
+      }
+
+      if (event.target.getAttribute('id') === 'picture') {
+        this.state.modeGame = 0;
+        this.gameStart = true;
+        model = new FifteenModel(this.state);
+        data = model.getCurrentState();
+        view = new FifteenView(data);
+        view.render();
+        const { modeGame } = data;
+        if (!modeGame) document.querySelector('.img').style.display = 'block';
+        document.querySelector('#picture').classList.add('settings-panel-active');
+        document.querySelector('#classic').classList.remove('settings-panel-active');
+      }
+
+      // if (event.target.getAttribute('id') === 'finish') {
+      //   const element = document.getElementById('overlay');
+      //   if (element) element.remove();
+      // }
+
       if (event.target.getAttribute('id') === 'overlay') {
         const element = document.getElementById('overlay');
-        element.remove();
+        if (element) element.remove();
       }
     });
 

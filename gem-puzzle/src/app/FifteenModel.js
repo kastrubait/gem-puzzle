@@ -9,7 +9,6 @@ export default class FifteenModel {
   constructor({
     codSizeField, moves, time, board, modeGame, emptyIndex, shuffling, stack, startGame, isOnSound,
   }) {
-    // this.state = state;
     this.codSizeField = codSizeField;
     this.modeGame = modeGame;
     this.board = board;
@@ -30,14 +29,12 @@ export default class FifteenModel {
     return solvedBoard;
   }
 
-  isSolved(newBoard) {
-    const solvedBoard = FifteenModel.getNewBoard(this.codSizeField);
-    for (let i = 0; i < NUM_TILES[this.codSizeField]; i++) {
-      if (newBoard[i][0] !== solvedBoard[i][0]
-          || newBoard[i][1] !== solvedBoard[i][1]) { return false; }
-    }
-    this.shuffling = true;
-    return true;
+  isSolved() {
+    return !this.board.some((item, i) => {
+      const el = tileNumber(item, this.codSizeField);
+      if (!(el > 0 && el - 1 !== i)) { this.shuffling = true; }
+      return (el > 0 && el - 1 !== i);
+    });
   }
 
   static getEmptyIndex(board, k) {
@@ -54,9 +51,8 @@ export default class FifteenModel {
     arrTile[i2] = t;
   }
 
-  static solvable(board) {
+  static solvable(board, k) {
     let kDisorder = 0;
-    const k = this.codSizeField;
     for (let i = 1; i < board.length - 1; i++) {
       for (let j = i - 1; j >= 0; j--) {
         if (tileNumber(board[j], k) > tileNumber(board[i], k)) {
@@ -87,7 +83,7 @@ export default class FifteenModel {
   }
 
   moveTile(index) {
-    if (this.isSolved(this.board)) return false;
+    if (this.isSolved()) return false;
     if (!this.canMoveTile(index)) return false;
     const emptyPosition = [...this.board[this.emptyIndex]];
     const tilePosition = [...this.board[index]];
@@ -115,22 +111,25 @@ export default class FifteenModel {
     if (this.moves === 0 && this.time === 0 && !this.startGame) {
       const newBoard = FifteenModel.getNewBoard(this.codSizeField)
         .sort(() => Math.random() - 0.5);
-      if (!FifteenModel.solvable(newBoard)) FifteenModel.swap(newBoard, 0, 1);
+      if (!FifteenModel.solvable(newBoard, this.codSizeField)) FifteenModel.swap(newBoard, 0, 1);
       this.startGame = true;
       this.shuffling = false;
       this.board = newBoard;
       this.emptyIndex = FifteenModel.getEmptyIndex(this.board, this.codSizeField);
-      // this.solved = FifteenModel.isSolved();
+      this.solved = this.isSolved();
     }
     return {
       codSizeField: this.codSizeField,
+      modeGame: this.modeGame,
+      emptyIndex: this.emptyIndex,
+      board: this.board,
       moves: this.moves,
       time: this.time,
-      board: this.board,
-      emptyIndex: this.emptyIndex,
-      solved: this.solved,
-      isOnSound: this.isOnSound,
       stack: this.stack,
+      solved: this.solved,
+      shuffling: this.shuffling,
+      isOnSound: this.isOnSound,
+      startGame: this.startGame,
     };
   }
 }

@@ -40,13 +40,13 @@ function showMenu() {
   bestScore.setAttribute('id', 'bestScore');
   bestScore.textContent = 'best score';
 
-  const settings = document.createElement('h4');
-  settings.setAttribute('id', 'settings');
-  settings.textContent = 'settings';
+  const finish = document.createElement('h4');
+  finish.setAttribute('id', 'finish');
+  finish.textContent = 'auto finish';
 
   const message = document.createElement('section');
   message.setAttribute('id', 'menu');
-  message.append(newGame, oldGame, saveGame, bestScore, settings);
+  message.append(newGame, oldGame, saveGame, bestScore, finish);
 
   const overlay = document.body.appendChild(document.createElement('div'));
   overlay.setAttribute('id', 'overlay');
@@ -75,7 +75,7 @@ function closeMess() {
 function showResults(results) {
   const title = document.createElement('h3');
   title.setAttribute('id', 'title');
-  title.textContent = '        date        moves/size    time';
+  title.textContent = '        date      moves/size    time';
 
   const overlay = document.body.appendChild(document.createElement('div'));
   overlay.setAttribute('id', 'overlay');

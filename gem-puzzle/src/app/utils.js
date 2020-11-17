@@ -68,8 +68,8 @@ function saveGame(data, timer) {
     results.push(currentScore);
     // eslint-disable-next-line no-confusing-arrow
     results.sort((a, b) => a.moves > b.moves ? 1 : -1);
-    if (results.length >= 10) {
-      results.splice(0, 1);
+    if (results.length >= 8) {
+      results.pop();
     }
     localStorage.setItem('bestScore', JSON.stringify(results));
   }
@@ -105,5 +105,13 @@ function getScore() {
 }
 
 export {
-  rand, tileNumber, soundKeys, restart, addZero, saveGame, loadGame, showTime, getScore,
+  rand,
+  tileNumber,
+  soundKeys,
+  restart,
+  addZero,
+  saveGame,
+  loadGame,
+  showTime,
+  getScore,
 };
