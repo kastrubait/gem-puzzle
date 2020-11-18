@@ -24,14 +24,13 @@ function soundKeys(isOnSound, error) {
   }
 }
 
-function showTime(timer) {
+function showTime(gamePause, startGame, timer) {
   let time = timer;
-  time += 1;
-  const sec = time % 60;
-  const min = parseInt(time / 60, 10);
-  const timeText = document.querySelector('timer');
-  timeText.textContent = `Time ${addZero(min)} : ${addZero(sec)}`;
-  setTimeout(showTime(timer), 1000);
+  if (startGame && !gamePause) {
+    time += 1;
+    // timeText.textContent = `Time ${addZero(min)} : ${addZero(sec)}`;
+    setTimeout(showTime(timer), 1000);
+  }
 }
 
 function restart() {
@@ -41,6 +40,7 @@ function restart() {
     solved: false,
     board: [],
     emptyIndex: null,
+    index: null,
     shuffling: false,
     stack: [],
     moves: 0,

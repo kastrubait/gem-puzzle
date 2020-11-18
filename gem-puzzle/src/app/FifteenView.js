@@ -1,4 +1,4 @@
-import { tileNumber } from './utils';
+import { tileNumber, addZero } from './utils';
 import { successMessage } from './modal';
 import { NUM_ROWS } from './constans';
 
@@ -9,7 +9,7 @@ export default class FifteenView {
 
   render() {
     const {
-      board, solved, codSizeField, modeGame, moves,
+      board, solved, codSizeField, modeGame, moves, time,
     } = this.stateCurrentGames;
     const box = document.querySelector('div');
     if (solved) {
@@ -18,7 +18,9 @@ export default class FifteenView {
     }
     // console.log(this.stateCurrentGames);
     const timeText = document.querySelector('#timer');
-    timeText.textContent = 'Time 00 : 00';
+    const sec = time % 60;
+    const min = parseInt(time / 60, 10);
+    timeText.textContent = `Time ${addZero(min)} : ${addZero(sec)}`;
 
     const movesText = document.querySelector('#moves');
     movesText.textContent = `Moves ${moves}`;
@@ -36,6 +38,15 @@ export default class FifteenView {
     }
 
     const sizeTile = NUM_ROWS[codSizeField];
+    // const boardPrev = stack[stack.length - 1];
+    // let boardCurrent;
+    // if (stack.length === 1 && !startGame) {
+    //   [boardCurrent] = stack;
+    //   console.log('s', boardCurrent);
+    // } else {
+    //   boardCurrent = board;
+    //   console.log('b', boardCurrent);
+    // }
     for (let i = 0, tile; i < board.length; i++) {
       tile = box.childNodes[i];
       tile.dataIndex = i;

@@ -24,8 +24,12 @@ module.exports = {
         use: ['style-loader', MiniCssExtractPlugin.loader, 'css-loader'],
       },
       {
-        test: /\.(gif|jpg|png|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+        test: /\.(gif|jpg|png|svg|mp3|mpe?n)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
         use: ['file-loader'],
+      },
+      {
+        test: /\.(mp3|mpe?g)$/,
+        use: ['url-loader'],
       },
       {
         test: /\.mp3$/,

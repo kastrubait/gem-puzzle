@@ -8,9 +8,10 @@ const isOnSound = true;
 const state = {
   codSizeField: 1,
   modeGame: 1,
-  solved: false,
   board: [],
+  solved: false,
   emptyIndex: null,
+  index: null,
   shuffling: false,
   stack: [],
   moves: 0,
