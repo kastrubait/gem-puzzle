@@ -7,7 +7,7 @@ import { tileNumber } from './utils';
 
 export default class FifteenModel {
   constructor({
-    codSizeField, moves, time, board, modeGame, emptyIndex, shuffling, stack, startGame,
+    codSizeField, moves, time, board, modeGame, emptyIndex, shuffling, stack, startGame, numberImg,
   }) {
     this.codSizeField = codSizeField;
     this.modeGame = modeGame;
@@ -18,6 +18,7 @@ export default class FifteenModel {
     this.moves = moves;
     this.time = time;
     this.startGame = startGame;
+    this.numberImg = numberImg;
   }
 
   static getNewBoard(codSizeField) {
@@ -100,7 +101,6 @@ export default class FifteenModel {
     this.board = boardAfterMove;
     this.index = this.emptyIndex;
     this.emptyIndex = FifteenModel.getEmptyIndex(this.board, this.codSizeField);
-    console.log(this.stack);
     return true;
   }
 
@@ -137,6 +137,7 @@ export default class FifteenModel {
       solved: this.solved,
       shuffling: this.shuffling,
       startGame: this.startGame,
+      numberImg: this.numberImg,
     };
   }
 }

@@ -19,13 +19,12 @@ export default class Fifteen {
 
     let model = new FifteenModel(this.state);
     let data = model.getCurrentState();
-    console.log(data);
     let view = new FifteenView(data);
     view.render();
     const { time, startGame } = data;
     showTime(gamePause, startGame, time);
 
-    window.addEventListener('mousedown', (event) => {
+    window.addEventListener('click', (event) => {
       const index = event.target.getAttribute('data-index');
       if (index && !model.canMoveTile(index)) {
         soundKeys(isOnSound, 1);
@@ -35,6 +34,9 @@ export default class Fifteen {
         data = model.getCurrentState();
         view = new FifteenView(data);
         view.render();
+        const { modeGame } = data;
+        if (!modeGame) document.querySelector('.img').style.display = 'block';
+        else document.querySelector('.img').style.display = 'none';
       }
 
       if (event.target.getAttribute('id') === 'undo') {
@@ -57,8 +59,6 @@ export default class Fifteen {
       }
 
       if (event.target.getAttribute('id') === 'pause') {
-        const img = document.querySelector('.img');
-        if (img) img.remove();
         this.gamePause = true;
         showMenu();
       }
@@ -72,14 +72,15 @@ export default class Fifteen {
         const element = document.getElementById('overlay');
         element.remove();
         gamePause = false;
+        const numberImg = Math.floor(Math.random() * 150);
         const newState = restart();
-        model = new FifteenModel(newState);
+        model = new FifteenModel({ ...newState, numberImg });
         data = model.getCurrentState();
-        console.log(data);
         view = new FifteenView(data);
         view.render();
         const { modeGame } = data;
         if (!modeGame) document.querySelector('.img').style.display = 'block';
+        else document.querySelector('.img').style.display = 'none';
         document.querySelector('#classic').classList.add('settings-panel-active');
         document.querySelector('#picture').classList.remove('settings-panel-active');
       }
@@ -103,6 +104,7 @@ export default class Fifteen {
             document.querySelector('#picture').classList.add('settings-panel-active');
             document.querySelector('#classic').classList.remove('settings-panel-active');
           } else {
+            document.querySelector('.img').style.display = 'none';
             document.querySelector('#classic').classList.add('settings-panel-active');
             document.querySelector('#picture').classList.remove('settings-panel-active');
           }
@@ -133,6 +135,8 @@ export default class Fifteen {
       }
 
       if (event.target.getAttribute('id') === 'picture') {
+        const numberImg = Math.floor(Math.random() * 150);
+        this.state.numberImg = numberImg;
         this.state.modeGame = 0;
         this.gameStart = true;
         model = new FifteenModel(this.state);

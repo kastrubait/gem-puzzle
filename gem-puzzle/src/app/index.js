@@ -59,6 +59,9 @@ function getResult() {
   info.classList.add('info');
   info.append(movesText, buttonsPanel);
 
+  const img = document.createElement('div');
+  img.classList.add('img');
+
   const box = document.body.appendChild(document.createElement('div'));
   box.classList.add('game-board');
   for (let i = 0; i < 16; i++) {
@@ -87,7 +90,7 @@ function getResult() {
   setingsPanel.append(label, classic, picture);
 
   const root = document.querySelector('#root');
-  root.append(heading, p, timeText, info, box, setingsPanel);
+  root.append(heading, p, timeText, info, box, setingsPanel, img);
 
   const game15 = new Fifteen(state);
   game15.getFifteens();

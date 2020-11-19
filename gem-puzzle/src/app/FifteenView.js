@@ -1,6 +1,6 @@
 import { tileNumber, addZero } from './utils';
 import { successMessage } from './modal';
-import { NUM_ROWS } from './constans';
+import { NUM_ROWS, URL_IMG } from './constans';
 
 export default class FifteenView {
   constructor(stateCurrentGames) {
@@ -9,14 +9,14 @@ export default class FifteenView {
 
   render() {
     const {
-      board, solved, codSizeField, modeGame, moves, time,
+      board, solved, codSizeField, modeGame, moves, time, numberImg,
     } = this.stateCurrentGames;
     const box = document.querySelector('div');
     if (solved) {
       box.style.backgroundColor = 'rgb(218, 165, 32)';
       successMessage(this.stateCurrentGames);
     }
-    // console.log(this.stateCurrentGames);
+    console.log(this.stateCurrentGames);
     const timeText = document.querySelector('#timer');
     const sec = time % 60;
     const min = parseInt(time / 60, 10);
@@ -24,36 +24,26 @@ export default class FifteenView {
 
     const movesText = document.querySelector('#moves');
     movesText.textContent = `Moves ${moves}`;
-
+    // const numberImg = Math.floor(Math.random() * 150);
     if (!modeGame) {
-      const img = document.createElement('div');
-      img.classList.add('img');
-      img.style.background = 'url(./public/140.jpg)';
+      const img = document.querySelector('.img');
+      img.style.display = 'block';
+      img.style.background = `url(${URL_IMG}/${numberImg}.jpg)`;
       img.style.backgroundSize = '120px';
       img.style.width = '120px';
       img.style.height = '120px';
       img.style.display = 'none';
-      const root = document.querySelector('#root');
-      root.append(img);
     }
 
     const sizeTile = NUM_ROWS[codSizeField];
-    // const boardPrev = stack[stack.length - 1];
-    // let boardCurrent;
-    // if (stack.length === 1 && !startGame) {
-    //   [boardCurrent] = stack;
-    //   console.log('s', boardCurrent);
-    // } else {
-    //   boardCurrent = board;
-    //   console.log('b', boardCurrent);
-    // }
+
     for (let i = 0, tile; i < board.length; i++) {
       tile = box.childNodes[i];
       tile.dataIndex = i;
       if (!modeGame) {
         const bgLeft = (tileNumber(board[i], codSizeField) % 4) * 100;
         const bgTop = Math.floor(tileNumber(board[i], codSizeField) / 4) * 100;
-        tile.style.background = 'url(./public/140.jpg)';
+        tile.style.background = `url(${URL_IMG}/${numberImg}.jpg)`;
         tile.style.backgroundSize = '420px';
         tile.style.backgroundPosition = `-${bgLeft}px -${bgTop}px`;
         tile.textContent = '';

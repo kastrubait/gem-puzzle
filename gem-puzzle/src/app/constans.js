@@ -5,7 +5,8 @@ const NUM_TILES = [9, 16, 25, 36, 49, 64];
 const MOVE_DIRECTIONS = {
   up: -4, down: -1, left: 4, right: 1,
 };
+const URL_IMG = 'https://raw.githubusercontent.com/kastrubait/image-data/master/box';
 
 export {
-  NUM_ROWS, NUM_COLS, NUM_TILES, MOVE_DIRECTIONS,
+  NUM_ROWS, NUM_COLS, NUM_TILES, MOVE_DIRECTIONS, URL_IMG,
 };
