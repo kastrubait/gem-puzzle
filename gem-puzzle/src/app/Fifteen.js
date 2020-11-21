@@ -170,15 +170,6 @@ export default class Fifteen {
         view.render();
         const { modeGame, time } = data;
         this.time = time;
-        clearInterval(timerId);
-        const timeId = setInterval(() => {
-          if (!gamePause) {
-            this.time += 1;
-            const sec = this.time % 60;
-            const min = Math.floor(this.time / 60);
-            document.querySelector('#timer').textContent = `Time ${addZero(min)} : ${addZero(sec)}`;
-          } else clearInterval(timeId);
-        }, 2000);
         if (modeGame && document.querySelector('.img')) document.querySelector('.img').style.display = 'none';
         document.querySelector('#classic').classList.add('settings-panel-active');
         document.querySelector('#picture').classList.remove('settings-panel-active');
