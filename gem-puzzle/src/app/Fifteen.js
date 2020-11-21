@@ -24,25 +24,6 @@ export default class Fifteen {
     let view = new FifteenView(data);
     view.render();
 
-    // function startTimer(paused, time) {
-    //   timer = time;
-    //   const timeId = setInterval(() => {
-    //     if (!paused) {
-    //       timer += 1;
-    //       const sec = timer % 60;
-    //       const min = Math.floor(timer / 60);
-    //       document.querySelector('#timer').text = `Time ${addZero(min)} : ${addZero(sec)}`;
-    //     } else clearInterval(timeId);
-    //     console.log(timer);
-    //   }, 1000);
-    // }
-
-    // function resetTimer(timerId) {
-    //   clearInterval(timerId);
-    //   timer = 0;
-    //   document.querySelector('#timer').textContent = `Time ${addZero(0)} : ${addZero(0)}`;
-    // }
-
     window.addEventListener('click', (event) => {
       const index = event.target.getAttribute('data-index');
       if (index && !model.canMoveTile(index)) {
@@ -133,14 +114,14 @@ export default class Fifteen {
           view.render();
           const { modeGame, time } = oldGame;
           this.time = time;
-          const timeId = setInterval(() => {
-            if (!gamePause) {
-              this.time += 1;
-              const sec = this.time % 60;
-              const min = Math.floor(this.time / 60);
-              document.querySelector('#timer').textContent = `Time ${addZero(min)} : ${addZero(sec)}`;
-            } else clearInterval(timeId);
-          }, 1000);
+          // const timeId = setInterval(() => {
+          //   if (!gamePause) {
+          //     this.time += 1;
+          //     const sec = this.time % 60;
+          //     const min = Math.floor(this.time / 60);
+          //     document.querySelector('#timer').text = `Time ${addZero(min)} : ${addZero(sec)}`;
+          //   } else clearInterval(timeId);
+          // }, 1000);
           if (!modeGame) {
             document.querySelector('.img').style.display = 'block';
             document.querySelector('#picture').classList.add('settings-panel-active');
@@ -201,9 +182,6 @@ export default class Fifteen {
         const element = document.getElementById('overlay');
         if (element) element.remove();
         gamePause = false;
-        // data = Fifteen.getCurrentState();
-        // const { time } = data;
-        // this.time = time;
         this.timeId = setInterval(() => {
           if (!gamePause) {
             this.time += 1;

@@ -1,5 +1,6 @@
 /* eslint-disable no-unused-expressions */
 import '../style/style.css';
+import { NUM_TILES } from './constans';
 import Fifteen from './Fifteen';
 import { showMenu } from './modal';
 import { addZero } from './utils';
@@ -66,7 +67,8 @@ function getResult() {
 
   const box = document.body.appendChild(document.createElement('div'));
   box.classList.add('game-board');
-  for (let i = 0; i < 16; i++) {
+  const { codSizeField } = state;
+  for (let i = 0; i < NUM_TILES[codSizeField]; i++) {
     const tile = document.createElement('div');
     tile.setAttribute('data-index', i);
     box.appendChild(tile);

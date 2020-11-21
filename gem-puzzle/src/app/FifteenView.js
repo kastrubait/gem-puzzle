@@ -1,6 +1,8 @@
 import { saveGame, tileNumber } from './utils';
 import { successMessage } from './modal';
-import { NUM_ROWS, URL_IMG, BG_SIZE } from './constans';
+import {
+  NUM_ROWS, URL_IMG, BG_SIZE, TILE_SIZE,
+} from './constans';
 
 export default class FifteenView {
   constructor(stateCurrentGames) {
@@ -33,7 +35,6 @@ export default class FifteenView {
       img.style.display = 'none';
     }
     // const [...boardPrev] = stack[stack.length - 1];
-    // console.log(stack.length - 1, boardPrev);
     for (let i = 0, tile; i < board.length; i++) {
       tile = box.childNodes[i];
       tile.dataIndex = i;
@@ -60,8 +61,8 @@ export default class FifteenView {
         const leftShift = (i % sizeTile) * (100 / sizeTile);
         tile.style.top = `${topShift}%`;
         tile.style.left = `${leftShift}%`;
-        tile.style.width = `${75 / sizeTile - 1}%`;
-        tile.style.height = `${75 / sizeTile - 1}%`;
+        tile.style.width = `${TILE_SIZE[codSizeField] / sizeTile - 1}%`;
+        tile.style.height = `${TILE_SIZE[codSizeField] / sizeTile - 1}%`;
         tile.textContent = tileNumber(board[i], codSizeField);
       }
       tile.style.visibility = tileNumber(board[i], codSizeField) !== 0 ? 'visible' : 'hidden';
