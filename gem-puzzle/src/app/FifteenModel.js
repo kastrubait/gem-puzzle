@@ -114,7 +114,7 @@ export default class FifteenModel {
   }
 
   getCurrentState() {
-    if (this.moves === 0 && this.time === 0 && !this.startGame) {
+    if (this.moves === 0 && !this.startGame) {
       const newBoard = FifteenModel.getNewBoard(this.codSizeField)
         .sort(() => Math.random() - 0.5);
       if (!FifteenModel.solvable(newBoard, this.codSizeField)) FifteenModel.swap(newBoard, 0, 1);

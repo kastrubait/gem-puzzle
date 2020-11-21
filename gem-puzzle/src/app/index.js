@@ -2,6 +2,7 @@
 import '../style/style.css';
 import Fifteen from './Fifteen';
 import { showMenu } from './modal';
+import { addZero } from './utils';
 
 const isOnSound = true;
 
@@ -29,6 +30,7 @@ function getResult() {
 
   const timeText = document.createElement('h2');
   timeText.setAttribute('id', 'timer');
+  timeText.textContent = `Time ${addZero(0)} : ${addZero(0)}`;
 
   const movesText = document.createElement('span');
   movesText.setAttribute('id', 'moves');
@@ -49,7 +51,7 @@ function getResult() {
   const pause = document.createElement('button');
   pause.classList.add('info-panel');
   pause.setAttribute('id', 'pause');
-  pause.textContent = 'PAUSE';
+  pause.textContent = 'MENU';
 
   const buttonsPanel = document.createElement('span');
   buttonsPanel.classList.add('info');

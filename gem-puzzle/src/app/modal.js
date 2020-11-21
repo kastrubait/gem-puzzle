@@ -57,14 +57,14 @@ function showMenu() {
 
 function anyMessage(text) {
   const textMess = document.createElement('h4');
-  textMess.setAttribute('id', 'text');
+  textMess.setAttribute('id', 'message');
   textMess.textContent = `${text}`;
 
-  const mess = document.body.appendChild(document.createElement('div'));
-  mess.setAttribute('id', 'message');
-  mess.append(textMess);
+  const overlay = document.body.appendChild(document.createElement('div'));
+  overlay.setAttribute('id', 'overlay');
+  overlay.append(textMess);
 
-  document.getElementById('message').style.display = 'block';
+  document.getElementById('overlay').style.display = 'block';
 }
 
 function closeMess() {

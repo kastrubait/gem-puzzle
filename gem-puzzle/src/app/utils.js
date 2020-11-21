@@ -16,20 +16,12 @@ function tileNumber(arr, i) {
 }
 
 function soundKeys(isOnSound, error) {
+  const URL = '/public';
   if (isOnSound) {
     const audio = new Audio();
     audio.preload = 'auto';
-    audio.src = (error) ? 'src/public/wrong.mp3' : 'src/public/correct.mp3';
+    audio.src = (error) ? `${URL}/wrong.mp3` : `${URL}/correct.mp3`;
     audio.play();
-  }
-}
-
-function showTime(gamePause, startGame, timer) {
-  let time = timer
-  if (startGame && !gamePause) {
-    time += 1;
-    // timeText.textContent = `Time ${addZero(min)} : ${addZero(sec)}`;
-    setTimeout(showTime(gamePause, startGame, time), 1000);
   }
 }
 
@@ -45,19 +37,21 @@ function restart() {
     shuffling: false,
     stack: [],
     moves: 0,
-    time: 0,
+    time: 1,
     startGame: false,
     numberImg,
   };
 }
 
-function saveGame(data, timer) {
-  const { moves, solved, codSizeField } = data;
+function saveGame(data) {
+  const {
+    moves, solved, codSizeField, time,
+  } = data;
   if (solved) {
     const formatter = new Intl.DateTimeFormat('en-US');
     const currentScore = {
       date: formatter.format(new Date()),
-      time: timer,
+      time,
       size: NUM_ROWS[codSizeField],
       moves,
     };
@@ -77,23 +71,22 @@ function saveGame(data, timer) {
   }
   if (moves && !solved) {
     window.localStorage.setItem('dataGame', JSON.stringify(data));
-    window.localStorage.setItem('time', timer);
-  } else {
+    anyMessage('Saved successfully!');
+  }
+  if (!moves) {
     anyMessage('Start the game, nothing to save here!!');
-    setTimeout(closeMess(), 5000);
   }
 }
 
 function loadGame() {
+  let oldGame;
   if (!localStorage.getItem('dataGame')) {
     return false;
   }
-  let timer;
   if (localStorage.getItem('dataGame')) {
-    timer = JSON.parse(localStorage.getItem('time'));
-  } else { timer = 0; }
-  const oldGame = JSON.parse(localStorage.getItem('dataGame'));
-  return { oldGame, timer };
+    oldGame = JSON.parse(localStorage.getItem('dataGame'));
+  }
+  return { oldGame };
 }
 
 function getScore() {
@@ -114,6 +107,5 @@ export {
   addZero,
   saveGame,
   loadGame,
-  showTime,
   getScore,
 };

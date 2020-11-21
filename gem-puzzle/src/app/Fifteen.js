@@ -3,10 +3,10 @@ import FifteenModel from './FifteenModel';
 import FifteenView from './FifteenView';
 import { NUM_ROWS, URL_IMG } from './constans';
 import {
-  soundKeys, restart, saveGame, loadGame, showTime, getScore, tileNumber, addZero,
+  soundKeys, restart, saveGame, loadGame, getScore, tileNumber, addZero,
 } from './utils';
 import {
-  showMenu, successMessage, showResults,
+  showMenu, successMessage, showResults, anyMessage,
 } from './modal';
 
 export default class Fifteen {
@@ -17,13 +17,31 @@ export default class Fifteen {
   getFifteens() {
     let isOnSound = true;
     let gamePause = true;
+    let timerId;
 
     let model = new FifteenModel(this.state);
     let data = model.getCurrentState();
     let view = new FifteenView(data);
     view.render();
-    const { time, startGame } = data;
-    showTime(gamePause, startGame, time);
+
+    // function startTimer(paused, time) {
+    //   timer = time;
+    //   const timeId = setInterval(() => {
+    //     if (!paused) {
+    //       timer += 1;
+    //       const sec = timer % 60;
+    //       const min = Math.floor(timer / 60);
+    //       document.querySelector('#timer').text = `Time ${addZero(min)} : ${addZero(sec)}`;
+    //     } else clearInterval(timeId);
+    //     console.log(timer);
+    //   }, 1000);
+    // }
+
+    // function resetTimer(timerId) {
+    //   clearInterval(timerId);
+    //   timer = 0;
+    //   document.querySelector('#timer').textContent = `Time ${addZero(0)} : ${addZero(0)}`;
+    // }
 
     window.addEventListener('click', (event) => {
       const index = event.target.getAttribute('data-index');
@@ -33,7 +51,7 @@ export default class Fifteen {
       if (index && model.moveTile(index)) {
         soundKeys(isOnSound, 0);
         data = model.getCurrentState();
-        view = new FifteenView(data);
+        view = new FifteenView({ ...data, time: this.time });
         view.render();
         const { modeGame } = data;
         if (!modeGame) document.querySelector('.img').style.display = 'block';
@@ -44,7 +62,7 @@ export default class Fifteen {
         const undo = model.undo();
         if (!undo) {
           data = model.getCurrentState();
-          view = new FifteenView(data);
+          view = new FifteenView({ ...data, time: this.time });
           view.render();
         }
       }
@@ -60,7 +78,8 @@ export default class Fifteen {
       }
 
       if (event.target.getAttribute('id') === 'pause') {
-        gamePause = true;
+        gamePause = !gamePause;
+        console.log(gamePause, this.time);
         showMenu();
       }
 
@@ -78,7 +97,16 @@ export default class Fifteen {
         data = model.getCurrentState();
         view = new FifteenView(data);
         view.render();
-        const { modeGame } = data;
+        const { modeGame, time } = data;
+        this.time = time;
+        const timeId = setInterval(() => {
+          if (!gamePause) {
+            this.time += 1;
+            const sec = this.time % 60;
+            const min = Math.floor(this.time / 60);
+            document.querySelector('#timer').textContent = `Time ${addZero(min)} : ${addZero(sec)}`;
+          } else clearInterval(timeId);
+        }, 1000);
         if (!modeGame) document.querySelector('.img').style.display = 'block';
         else document.querySelector('.img').style.display = 'none';
         document.querySelector('#classic').classList.add('settings-panel-active');
@@ -86,21 +114,35 @@ export default class Fifteen {
       }
 
       if (event.target.getAttribute('id') === 'saveGame') {
+        const element = document.getElementById('overlay');
+        if (element) element.remove();
         this.gameStart = false;
         data = model.getCurrentState();
-        saveGame(data, 0);
+        data = { ...data, time: this.time, gameStart: false };
+        console.log('save', data);
+        saveGame(data);
       }
 
       if (event.target.getAttribute('id') === 'oldGame') {
         const element = document.getElementById('overlay');
         if (element) element.remove();
-        const { oldGame, timer } = loadGame();
-        const { modeGame } = oldGame;
+        this.gameStart = true;
+        gamePause = false;
+        const { oldGame } = loadGame();
         if (oldGame) {
           model = new FifteenModel({ ...oldGame });
-          data = model.getCurrentState();
           view = new FifteenView(oldGame);
           view.render();
+          const { modeGame, time } = oldGame;
+          this.time = time;
+          const timeId = setInterval(() => {
+            if (!gamePause) {
+              this.time += 1;
+              const sec = this.time % 60;
+              const min = Math.floor(this.time / 60);
+              document.querySelector('#timer').textContent = `Time ${addZero(min)} : ${addZero(sec)}`;
+            } else clearInterval(timeId);
+          }, 1000);
           if (!modeGame) {
             document.querySelector('.img').style.display = 'block';
             document.querySelector('#picture').classList.add('settings-panel-active');
@@ -110,10 +152,7 @@ export default class Fifteen {
             document.querySelector('#classic').classList.add('settings-panel-active');
             document.querySelector('#picture').classList.remove('settings-panel-active');
           }
-          this.gameStart = true;
-          gamePause = false;
-          showTime(timer);
-        }
+        } else anyMessage('No saves yet! Click to continue!');
       }
 
       if (event.target.getAttribute('id') === 'bestScore') {
@@ -131,7 +170,17 @@ export default class Fifteen {
         data = model.getCurrentState();
         view = new FifteenView(data);
         view.render();
-        const { modeGame } = data;
+        const { modeGame, time } = data;
+        this.time = time;
+        clearInterval(timerId);
+        const timeId = setInterval(() => {
+          if (!gamePause) {
+            this.time += 1;
+            const sec = this.time % 60;
+            const min = Math.floor(this.time / 60);
+            document.querySelector('#timer').textContent = `Time ${addZero(min)} : ${addZero(sec)}`;
+          } else clearInterval(timeId);
+        }, 2000);
         if (modeGame && document.querySelector('.img')) document.querySelector('.img').style.display = 'none';
         document.querySelector('#classic').classList.add('settings-panel-active');
         document.querySelector('#picture').classList.remove('settings-panel-active');
@@ -147,7 +196,17 @@ export default class Fifteen {
         data = model.getCurrentState();
         view = new FifteenView(data);
         view.render();
-        const { modeGame } = data;
+        const { modeGame, time } = data;
+        this.time = time;
+        clearInterval(timerId);
+        const timeId = setInterval(() => {
+          if (!gamePause) {
+            this.time += 1;
+            const sec = this.time % 60;
+            const min = Math.floor(this.time / 60);
+            document.querySelector('#timer').textContent = `Time ${addZero(min)} : ${addZero(sec)}`;
+          } else clearInterval(timeId);
+        }, 2000);
         if (!modeGame) document.querySelector('.img').style.display = 'block';
         document.querySelector('#picture').classList.add('settings-panel-active');
         document.querySelector('#classic').classList.remove('settings-panel-active');
@@ -161,6 +220,15 @@ export default class Fifteen {
       if (event.target.getAttribute('id') === 'overlay') {
         const element = document.getElementById('overlay');
         if (element) element.remove();
+        gamePause = false;
+        const timeId = setInterval(() => {
+          if (!gamePause) {
+            this.time += 1;
+            const sec = this.time % 60;
+            const min = Math.floor(this.time / 60);
+            document.querySelector('#timer').textContent = `Time ${addZero(min)} : ${addZero(sec)}`;
+          } else clearInterval(timeId);
+        }, 2000);
       }
     });
 

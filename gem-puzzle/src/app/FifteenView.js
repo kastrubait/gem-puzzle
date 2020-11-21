@@ -1,4 +1,4 @@
-import { tileNumber, addZero } from './utils';
+import { saveGame, tileNumber } from './utils';
 import { successMessage } from './modal';
 import { NUM_ROWS, URL_IMG, BG_SIZE } from './constans';
 
@@ -9,20 +9,16 @@ export default class FifteenView {
 
   render() {
     const {
-      board, solved, codSizeField, modeGame, moves, time, numberImg,
+      board, solved, codSizeField, modeGame, moves, numberImg,
     } = this.stateCurrentGames;
     const box = document.querySelector('div');
     box.style.backgroundColor = 'rgba(151, 35, 132, 0.816)';
     if (solved) {
       box.style.backgroundColor = 'rgb(218, 165, 32)';
+      saveGame(this.stateCurrentGames);
       successMessage(this.stateCurrentGames);
     }
     // console.log(this.stateCurrentGames);
-    const timeText = document.querySelector('#timer');
-    const sec = time % 60;
-    const min = parseInt(time / 60, 10);
-    timeText.textContent = `Time ${addZero(min)} : ${addZero(sec)}`;
-
     const movesText = document.querySelector('#moves');
     movesText.textContent = `Moves ${moves}`;
 
