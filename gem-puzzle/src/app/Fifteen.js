@@ -196,15 +196,6 @@ export default class Fifteen {
         view.render();
         const { modeGame, time } = data;
         this.time = time;
-        clearInterval(timerId);
-        const timeId = setInterval(() => {
-          if (!gamePause) {
-            this.time += 1;
-            const sec = this.time % 60;
-            const min = Math.floor(this.time / 60);
-            document.querySelector('#timer').textContent = `Time ${addZero(min)} : ${addZero(sec)}`;
-          } else clearInterval(timeId);
-        }, 2000);
         if (!modeGame) document.querySelector('.img').style.display = 'block';
         document.querySelector('#picture').classList.add('settings-panel-active');
         document.querySelector('#classic').classList.remove('settings-panel-active');
@@ -219,15 +210,16 @@ export default class Fifteen {
         const element = document.getElementById('overlay');
         if (element) element.remove();
         gamePause = false;
-        const { time } = Fifteen.getCurrentState();
-        this.time = time;
-        const timeId = setInterval(() => {
+        // data = Fifteen.getCurrentState();
+        // const { time } = data;
+        // this.time = time;
+        this.timeId = setInterval(() => {
           if (!gamePause) {
             this.time += 1;
             const sec = this.time % 60;
             const min = Math.floor(this.time / 60);
             document.querySelector('#timer').textContent = `Time ${addZero(min)} : ${addZero(sec)}`;
-          } else clearInterval(timeId);
+          } else clearInterval(this.timeId);
         }, 2000);
       }
     });
