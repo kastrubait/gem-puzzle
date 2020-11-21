@@ -1,6 +1,6 @@
 import { tileNumber, addZero } from './utils';
 import { successMessage } from './modal';
-import { NUM_ROWS, URL_IMG } from './constans';
+import { NUM_ROWS, URL_IMG, BG_SIZE } from './constans';
 
 export default class FifteenView {
   constructor(stateCurrentGames) {
@@ -12,11 +12,12 @@ export default class FifteenView {
       board, solved, codSizeField, modeGame, moves, time, numberImg,
     } = this.stateCurrentGames;
     const box = document.querySelector('div');
+    box.style.backgroundColor = 'rgba(151, 35, 132, 0.816)';
     if (solved) {
       box.style.backgroundColor = 'rgb(218, 165, 32)';
       successMessage(this.stateCurrentGames);
     }
-    console.log(this.stateCurrentGames);
+    // console.log(this.stateCurrentGames);
     const timeText = document.querySelector('#timer');
     const sec = time % 60;
     const min = parseInt(time / 60, 10);
@@ -24,31 +25,41 @@ export default class FifteenView {
 
     const movesText = document.querySelector('#moves');
     movesText.textContent = `Moves ${moves}`;
-    // const numberImg = Math.floor(Math.random() * 150);
+
+    const sizeTile = NUM_ROWS[codSizeField];
     if (!modeGame) {
       const img = document.querySelector('.img');
       img.style.display = 'block';
       img.style.background = `url(${URL_IMG}/${numberImg}.jpg)`;
-      img.style.backgroundSize = '120px';
-      img.style.width = '120px';
-      img.style.height = '120px';
+      img.style.backgroundSize = `${Math.floor(BG_SIZE / sizeTile)}px`;
+      img.style.width = `${Math.floor(BG_SIZE / sizeTile)}px`;
+      img.style.height = `${Math.floor(BG_SIZE / sizeTile)}px`;
       img.style.display = 'none';
     }
-
-    const sizeTile = NUM_ROWS[codSizeField];
-
+    // const [...boardPrev] = stack[stack.length - 1];
+    // console.log(stack.length - 1, boardPrev);
     for (let i = 0, tile; i < board.length; i++) {
       tile = box.childNodes[i];
       tile.dataIndex = i;
       if (!modeGame) {
-        const bgLeft = (tileNumber(board[i], codSizeField) % 4) * 100;
-        const bgTop = Math.floor(tileNumber(board[i], codSizeField) / 4) * 100;
+        const bgLeft = (board[i][1]) * 100;
+        const bgTop = Math.floor(board[i][0]) * 100;
         tile.style.background = `url(${URL_IMG}/${numberImg}.jpg)`;
-        tile.style.backgroundSize = '420px';
+        tile.style.backgroundSize = `${BG_SIZE}px`;
         tile.style.backgroundPosition = `-${bgLeft}px -${bgTop}px`;
         tile.textContent = '';
+        tile.style.visibility = tileNumber(board[i], codSizeField) !== 0 ? 'visible' : 'hidden';
       } else if (tileNumber(board[i], codSizeField) !== 0) {
         tile.removeAttribute('style');
+        // let timerIid = setInterval(frame, 10);
+        // function frame() {
+        //   if (topShift === topNext && leftShift === leftNext) {
+        //     clearInterval(timerId);
+        //   } else {
+        //     topShift++;
+        //     leftShift += (leftNext - leftShift) / 10;
+        //   }
+        // }
         const topShift = Math.floor(i / sizeTile) * (100 / sizeTile);
         const leftShift = (i % sizeTile) * (100 / sizeTile);
         tile.style.top = `${topShift}%`;

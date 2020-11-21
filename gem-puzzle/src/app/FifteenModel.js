@@ -134,7 +134,7 @@ export default class FifteenModel {
       moves: this.moves,
       time: this.time,
       stack: this.stack,
-      solved: this.solved,
+      solved: this.isSolved(),
       shuffling: this.shuffling,
       startGame: this.startGame,
       numberImg: this.numberImg,

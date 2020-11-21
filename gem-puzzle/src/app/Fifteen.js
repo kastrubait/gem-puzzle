@@ -1,8 +1,9 @@
 /* eslint-disable no-unused-vars */
 import FifteenModel from './FifteenModel';
 import FifteenView from './FifteenView';
+import { NUM_ROWS, URL_IMG } from './constans';
 import {
-  soundKeys, restart, saveGame, loadGame, showTime, getScore,
+  soundKeys, restart, saveGame, loadGame, showTime, getScore, tileNumber, addZero,
 } from './utils';
 import {
   showMenu, successMessage, showResults,
@@ -59,7 +60,7 @@ export default class Fifteen {
       }
 
       if (event.target.getAttribute('id') === 'pause') {
-        this.gamePause = true;
+        gamePause = true;
         showMenu();
       }
 
@@ -72,9 +73,8 @@ export default class Fifteen {
         const element = document.getElementById('overlay');
         element.remove();
         gamePause = false;
-        const numberImg = Math.floor(Math.random() * 150);
         const newState = restart();
-        model = new FifteenModel({ ...newState, numberImg });
+        model = new FifteenModel({ ...newState });
         data = model.getCurrentState();
         view = new FifteenView(data);
         view.render();
@@ -97,6 +97,8 @@ export default class Fifteen {
         const { oldGame, timer } = loadGame();
         const { modeGame } = oldGame;
         if (oldGame) {
+          model = new FifteenModel({ ...oldGame });
+          data = model.getCurrentState();
           view = new FifteenView(oldGame);
           view.render();
           if (!modeGame) {
@@ -123,7 +125,8 @@ export default class Fifteen {
 
       if (event.target.getAttribute('id') === 'classic') {
         this.state.modeGame = 1;
-        this.gameStart = true;
+        this.state.gameStart = true;
+        this.state.stack = [];
         model = new FifteenModel(this.state);
         data = model.getCurrentState();
         view = new FifteenView(data);
@@ -135,10 +138,11 @@ export default class Fifteen {
       }
 
       if (event.target.getAttribute('id') === 'picture') {
-        const numberImg = Math.floor(Math.random() * 150);
-        this.state.numberImg = numberImg;
-        this.state.modeGame = 0;
+        this.state.numberImg = Math.floor(Math.random() * 150);
         this.gameStart = true;
+        this.state.modeGame = 0;
+        this.state.gameStart = true;
+        this.state.stack = [];
         model = new FifteenModel(this.state);
         data = model.getCurrentState();
         view = new FifteenView(data);

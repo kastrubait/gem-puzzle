@@ -25,15 +25,16 @@ function soundKeys(isOnSound, error) {
 }
 
 function showTime(gamePause, startGame, timer) {
-  let time = timer;
+  let time = timer
   if (startGame && !gamePause) {
     time += 1;
     // timeText.textContent = `Time ${addZero(min)} : ${addZero(sec)}`;
-    setTimeout(showTime(timer), 1000);
+    setTimeout(showTime(gamePause, startGame, time), 1000);
   }
 }
 
 function restart() {
+  const numberImg = Math.floor(Math.random() * 150);
   return {
     codSizeField: 1,
     modeGame: 1,
@@ -46,6 +47,7 @@ function restart() {
     moves: 0,
     time: 0,
     startGame: false,
+    numberImg,
   };
 }
 

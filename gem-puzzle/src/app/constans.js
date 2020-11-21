@@ -6,7 +6,8 @@ const MOVE_DIRECTIONS = {
   up: -4, down: -1, left: 4, right: 1,
 };
 const URL_IMG = 'https://raw.githubusercontent.com/kastrubait/image-data/master/box';
+const BG_SIZE = 420;
 
 export {
-  NUM_ROWS, NUM_COLS, NUM_TILES, MOVE_DIRECTIONS, URL_IMG,
+  NUM_ROWS, NUM_COLS, NUM_TILES, MOVE_DIRECTIONS, URL_IMG, BG_SIZE,
 };
