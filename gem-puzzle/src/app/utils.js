@@ -16,7 +16,7 @@ function tileNumber(arr, i) {
 }
 
 function soundKeys(isOnSound, error) {
-  const URL = '/public';
+  const URL = './public';
   if (isOnSound) {
     const audio = new Audio();
     audio.preload = 'auto';

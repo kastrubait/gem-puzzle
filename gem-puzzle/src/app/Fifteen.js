@@ -79,7 +79,6 @@ export default class Fifteen {
 
       if (event.target.getAttribute('id') === 'pause') {
         gamePause = !gamePause;
-        console.log(gamePause, this.time);
         showMenu();
       }
 
@@ -119,7 +118,6 @@ export default class Fifteen {
         this.gameStart = false;
         data = model.getCurrentState();
         data = { ...data, time: this.time, gameStart: false };
-        console.log('save', data);
         saveGame(data);
       }
 
@@ -221,6 +219,8 @@ export default class Fifteen {
         const element = document.getElementById('overlay');
         if (element) element.remove();
         gamePause = false;
+        const { time } = Fifteen.getCurrentState();
+        this.time = time;
         const timeId = setInterval(() => {
           if (!gamePause) {
             this.time += 1;

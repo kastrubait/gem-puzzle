@@ -88,9 +88,9 @@ function showResults(results) {
       date, moves, size, time,
     } = results[i];
     const rez = addZero(moves);
-    const min = addZero(time % 60);
-    const sec = addZero(parseInt(time / 60, 10));
-    row.textContent = `${date}        ${rez}/${size}       ${min} : ${sec}`;
+    const sec = addZero(time % 60);
+    const min = addZero(parseInt(time / 60, 10));
+    row.textContent = `${date}        ${rez}/${size}       ${min}:${sec}`;
     overlay.append(row);
   }
   document.getElementById('overlay').style.display = 'block';
