@@ -8,6 +8,7 @@ import {
 import {
   showMenu, successMessage, showResults, anyMessage,
 } from './modal';
+import { estimate } from './avtosolve15';
 
 export default class Fifteen {
   constructor(state) {
@@ -173,10 +174,13 @@ export default class Fifteen {
         document.querySelector('#classic').classList.remove('settings-panel-active');
       }
 
-      // if (event.target.getAttribute('id') === 'finish') {
-      //   const element = document.getElementById('overlay');
-      //   if (element) element.remove();
-      // }
+      if (event.target.getAttribute('id') === 'finish') {
+        const element = document.getElementById('overlay');
+        if (element) element.remove();
+        const { board, stack, codSizeField } = model.getCurrentState();
+        const man = estimate(board, stack[0], codSizeField);
+        console.log(man);
+      }
 
       if (event.target.getAttribute('id') === 'overlay') {
         const element = document.getElementById('overlay');
