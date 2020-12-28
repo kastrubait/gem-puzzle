@@ -65,7 +65,6 @@ export default class FifteenModel {
 
   static moveInDirection(direction) {
     const move = MOVE_DIRECTIONS[direction];
-    // const emptyIndex = FifteenModel.getEmptyIndex(this.board, this.codSizeField);;
     const index = this.emptyIndex + move;
     return index;
   }

@@ -20,7 +20,6 @@ export default class FifteenView {
       saveGame(this.stateCurrentGames);
       successMessage(this.stateCurrentGames);
     }
-    // console.log(this.stateCurrentGames);
     const movesText = document.querySelector('#moves');
     movesText.textContent = `Moves ${moves}`;
 
@@ -34,7 +33,6 @@ export default class FifteenView {
       img.style.height = `${Math.floor(BG_SIZE / sizeTile)}px`;
       img.style.display = 'none';
     }
-    // const [...boardPrev] = stack[stack.length - 1];
     for (let i = 0, tile; i < board.length; i++) {
       tile = box.childNodes[i];
       tile.dataIndex = i;
@@ -48,15 +46,6 @@ export default class FifteenView {
         tile.style.visibility = tileNumber(board[i], codSizeField) !== 0 ? 'visible' : 'hidden';
       } else if (tileNumber(board[i], codSizeField) !== 0) {
         tile.removeAttribute('style');
-        // let timerIid = setInterval(frame, 10);
-        // function frame() {
-        //   if (topShift === topNext && leftShift === leftNext) {
-        //     clearInterval(timerId);
-        //   } else {
-        //     topShift++;
-        //     leftShift += (leftNext - leftShift) / 10;
-        //   }
-        // }
         const topShift = Math.floor(i / sizeTile) * (100 / sizeTile);
         const leftShift = (i % sizeTile) * (100 / sizeTile);
         tile.style.top = `${topShift}%`;

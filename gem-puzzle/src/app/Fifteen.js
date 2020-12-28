@@ -1,7 +1,6 @@
 /* eslint-disable no-unused-vars */
 import FifteenModel from './FifteenModel';
 import FifteenView from './FifteenView';
-import { NUM_ROWS, URL_IMG } from './constans';
 import {
   soundKeys, restart, saveGame, loadGame, getScore, tileNumber, addZero,
 } from './utils';
@@ -115,14 +114,6 @@ export default class Fifteen {
           view.render();
           const { modeGame, time } = oldGame;
           this.time = time;
-          // const timeId = setInterval(() => {
-          //   if (!gamePause) {
-          //     this.time += 1;
-          //     const sec = this.time % 60;
-          //     const min = Math.floor(this.time / 60);
-          //     document.querySelector('#timer').text = `Time ${addZero(min)} : ${addZero(sec)}`;
-          //   } else clearInterval(timeId);
-          // }, 1000);
           if (!modeGame) {
             document.querySelector('.img').style.display = 'block';
             document.querySelector('#picture').classList.add('settings-panel-active');
@@ -179,7 +170,6 @@ export default class Fifteen {
         if (element) element.remove();
         const { board, stack, codSizeField } = model.getCurrentState();
         const man = estimate(board, stack[0], codSizeField);
-        console.log(man);
       }
 
       if (event.target.getAttribute('id') === 'overlay') {
