@@ -1,0 +1,261 @@
+body {
+  width: 100%;
+  margin: 0 auto;
+  background-color: rgb(242, 248, 236);
+}
+
+h1 { color: rgb(147, 6, 123); padding-top: 20px; text-shadow: 2px 4px 3px rgba(0,0,0,0.2);}
+p { font-size: 24px; }
+
+h1, h2, h3, h4, h5, p { 
+  margin: 0 auto;
+  padding-top: 10px;
+  text-align: center;
+  width: 420px;
+ }
+
+ h4:hover {
+  color: rgb(124, 4, 104);
+  text-shadow: 2px 4px 3px rgba(0, 0, 0, 0.514),
+                 0px -5px 5px rgba(255, 255, 255, 0.884);
+ }
+
+ section.info,
+ section.settings {
+  display: flex;
+  margin: 0 auto;
+  padding-top: 10px;
+  align-items: center;
+  justify-content: space-between;
+  width: 420px;
+  font: bolder 18px Tahoma,sans;
+  color: rgb(147, 6, 123);
+ }
+
+ section.settings {
+  justify-content: center;
+ }
+
+ button.info-panel {
+  cursor: pointer;
+  margin-left: 5px;
+  color: rgb(147, 6, 123);
+  font: bolder 14px Tahoma,sans;
+ }
+
+ button.settings-panel {
+  cursor: pointer;
+  padding: 5px;
+  text-align: center;
+  justify-content: center;
+  border-radius: 5px;
+  color: rgb(147, 6, 123);
+  font: bolder 14px Tahoma,sans;
+ }
+
+ button.settings-panel-active {
+  color: rgb(255, 255, 255);
+  background-color: rgb(147, 6, 123);
+ }
+
+ button.info-panel:hover,
+ button.settings-panel:hover {
+   background-color: rgb(214, 216, 207);
+   color: rgb(147, 6, 123);
+   border-radius: 10px;
+ }
+
+ select {
+  width: 70px;
+  height: 35px;
+  border-radius:10%;
+  font: bolder 20px Tahoma,sans;
+  border:3px ridge gray;
+}
+
+#label {
+  white-space: pre;
+}
+
+#mode-select {
+  width: 110px;
+}
+
+ #overlay {
+  position: fixed;
+  display: none;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0,0,0,0.5);
+  cursor: pointer;
+}
+
+#infoVictory{
+  position: absolute;
+  top: 400px;
+  left: 50%;
+  font-size: 40px;
+  color: white;
+  transform: translate(-50%,-50%);
+  -ms-transform: translate(-50%,-50%);
+}
+
+#menu, #mode {
+  position: absolute;
+  top: 455px;
+  left: 50%;
+  font-size: 45px;
+  color: white;
+  transform: translate(-50%,-50%);
+  -ms-transform: translate(-50%,-50%);
+}
+
+#message {
+  position: absolute;
+  top: 400px;
+  left: 50%;
+  font-size: 35px;
+  z-index: 5;
+  color: white;
+  transform: translate(-50%,-50%);
+  -ms-transform: translate(-50%,-50%);
+}
+
+#settingCod, #settingMode {
+  position: absolute;
+  top: 310px;
+  left: 50%;
+  font-size: 35px;
+  z-index: 5;
+  color: white;
+  transform: translate(-50%,-50%);
+  -ms-transform: translate(-50%,-50%);
+}
+
+#settingCod {
+  position: absolute;
+  top: 425px;
+}
+
+h3 {
+  position: relative;
+  top: 280px;
+  left: 50%;
+  margin-left: -0.625em;
+  font-size: 25px;
+  color: white;
+  white-space: pre;
+  transform: translate(-50%,-50%);
+  -ms-transform: translate(-50%,-50%);
+}
+
+p.rowStyle {
+  position: relative;
+  top: 280px;
+  font-size: 25px;
+  color: white;
+  white-space: pre;
+}
+
+div.img {
+  position: fixed;
+  top: 55px;
+  left: 50%;
+  margin-left: -0.625em;
+  z-index: 5;
+}
+
+div.game-board {
+  position: relative;
+  margin: 0 auto;
+  margin-top: 2px;
+  z-index: 1;
+  padding: 4px;
+  width: 420px;
+  height: 420px;
+  border: solid 1px;
+  border-radius: 10px;
+  background-color: rgba(151, 35, 132, 0.816);
+  box-shadow:
+  0 1px 4px rgba(145, 30, 30, 0.3),
+  -23px 0 20px -23px rgba(12, 12, 12, 0.8),
+  23px 0 20px -23px rgba(7, 7, 7, 0.8),
+  0 0 40px rgba(160, 51, 51, 0.1) inset;
+}
+  
+div > div {
+  position: absolute;
+  display: inline-block;
+  border: solid 1px rgba(158, 158, 158, 0.8);
+  margin: 2px;
+  text-align: center;
+  font: bold 32px/75px Tahoma,sans;
+  color: rgba(0,0,0,0.6);
+  text-shadow: 2px 4px 3px rgba(0,0,0,0.2);
+  user-select: none;
+  cursor: pointer;
+  background-color: rgb(212, 218, 196);
+  justify-content: center;
+  align-items: center;
+  transition: all 0.1s ease-in-out;
+  box-shadow: 
+    rgb(255, 255, 255) 0px -3px 10px inset, 
+    rgba(0, 0, 0, 0.4) 0px 3px 10px inset, 
+    rgba(0, 0, 0, 0.9) 0px 2px 4px;
+    transition: all 0.2s ease 0s;
+    border-width: 0.4em;
+    border-style: solid;
+    border-color: rgba(0, 0, 0, 0);
+    border-image: initial;
+    border-radius: 10px;
+}
+
+div > div:hover { 
+  background-color: rgb(191, 194, 181);
+}
+
+@media (max-width: 425px) { 
+  h1, h2, h4, p { 
+    width: 310px
+   }
+
+   p {
+    font-size: 20px;
+   }
+
+   section.info,
+   section.settings {
+    width: 310px;
+    font: bolder 16px Tahoma,sans;
+   }
+
+   button.info-panel {
+    font: bolder 12px Tahoma,sans;
+  }
+
+   div.game-board {
+    width: 310px;
+    height: 310px;
+   }
+
+   div > div {
+    font: bold 24px/50px Tahoma,sans;
+   }
+
+   #menu {
+    top: 380px;
+    font-size: 40px;
+   }
+
+   #infoVictory {
+    top: 350px;
+    font-size: 30px;
+  }
+}
+
+/*# sourceMappingURL=style.css.map*/
